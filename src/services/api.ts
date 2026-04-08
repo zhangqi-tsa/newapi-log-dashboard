@@ -1,4 +1,4 @@
-import type { LogItem, StatData, ApiResponse, PageInfo } from '../types'
+import type { StatData, ApiResponse, PageInfo } from '../types'
 
 const API_BASE = '/api'
 

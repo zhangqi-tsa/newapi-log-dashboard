@@ -1,5 +1,5 @@
 import { Row, Col, Card, Statistic } from 'antd'
-import { ApiOutlined, TokenOutlined, DollarOutlined, UserOutlined, AppstoreOutlined } from '@ant-design/icons'
+import { ApiOutlined, NumberOutlined, DollarOutlined, UserOutlined, AppstoreOutlined } from '@ant-design/icons'
 import type { StatsCardsData } from '../../types'
 import { formatNumber } from '../../utils/aggregator'
 
@@ -19,7 +19,7 @@ export default function StatsCards({ data, loading }: StatsCardsProps) {
     {
       title: '总 Tokens',
       value: data.totalTokens,
-      icon: <TokenOutlined style={{ fontSize: 24, color: '#52c41a' }} />,
+      icon: <NumberOutlined style={{ fontSize: 24, color: '#52c41a' }} />,
       color: '#f6ffed',
     },
     {
