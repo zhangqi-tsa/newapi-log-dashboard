@@ -1,0 +1,81 @@
+<h2>看板布局方案</h2>
+<p class="subtitle">New API 使用量看板 - 选择整体布局风格</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>经典管理后台</h3>
+      <div class="mockup">
+        <div class="mockup-header">New API 使用量看板</div>
+        <div class="mockup-body" style="display:flex;min-height:200px">
+          <div class="mock-sidebar" style="width:180px;padding:10px">
+            <div style="padding:8px;background:#1890ff;color:#fff;margin-bottom:4px">用户明细</div>
+            <div style="padding:8px;background:#f5f5f5;margin-bottom:4px">模型维度</div>
+            <div style="padding:8px;background:#f5f5f5">详细日志</div>
+          </div>
+          <div class="mock-content" style="flex:1;padding:16px">
+            <div style="display:flex;gap:16px;margin-bottom:16px">
+              <div class="placeholder" style="flex:1;height:80px">统计卡片: 总请求数</div>
+              <div class="placeholder" style="flex:1;height:80px">统计卡片: 总 Quota</div>
+              <div class="placeholder" style="flex:1;height:80px">统计卡片: 总 Tokens</div>
+            </div>
+            <div class="placeholder" style="height:120px">数据表格区域</div>
+          </div>
+        </div>
+      </div>
+      <p>左侧固定导航 + 右侧内容区，Ant Design Pro 风格</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>顶部导航简洁版</h3>
+      <div class="mockup">
+        <div class="mockup-header">
+          <span style="font-weight:bold">New API Dashboard</span>
+          <span style="margin-left:24px;padding:4px 12px;background:#1890ff;color:#fff;border-radius:4px">用户明细</span>
+          <span style="margin-left:8px;padding:4px 12px;background:#f5f5f5;border-radius:4px">模型维度</span>
+          <span style="margin-left:8px;padding:4px 12px;background:#f5f5f5;border-radius:4px">详细日志</span>
+        </div>
+        <div class="mockup-body" style="padding:16px">
+          <div style="display:flex;gap:16px;margin-bottom:16px">
+            <div class="placeholder" style="flex:1;height:80px">统计卡片</div>
+            <div class="placeholder" style="flex:1;height:80px">统计卡片</div>
+            <div class="placeholder" style="flex:1;height:80px">统计卡片</div>
+          </div>
+          <div class="placeholder" style="height:140px">数据表格</div>
+        </div>
+      </div>
+      <p>顶部 Tab 导航，内容区更大，适合数据展示</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>单页全览版</h3>
+      <div class="mockup">
+        <div class="mockup-header">New API 使用量看板</div>
+        <div class="mockup-body" style="padding:16px">
+          <div class="section">
+            <h4 style="margin-bottom:8px">📊 用户明细</h4>
+            <div class="placeholder" style="height:100px">用户聚合表格</div>
+          </div>
+          <div class="section">
+            <h4 style="margin-bottom:8px">📈 模型维度</h4>
+            <div class="placeholder" style="height:100px">模型聚合表格</div>
+          </div>
+          <div class="section">
+            <h4 style="margin-bottom:8px">📋 最近日志</h4>
+            <div class="placeholder" style="height:80px">日志列表</div>
+          </div>
+        </div>
+      </div>
+      <p>一页展示所有信息，适合快速查看，无导航切换</p>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top:16px;color:#666">点击选择布局方案，然后告诉我你的选择</p>

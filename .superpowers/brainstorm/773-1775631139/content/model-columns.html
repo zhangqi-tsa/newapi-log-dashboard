@@ -1,0 +1,73 @@
+<h2>模型维度 - 表格列设计</h2>
+<p class="subtitle">按用户+模型聚合的统计数据，选择需要展示的列</p>
+
+<div class="options" data-multiselect>
+  <div class="option" data-choice="username" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>AK 名称 (TokenName)</h3>
+      <p>用户标识，点击跳转来源</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="model" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>模型名称 (ModelName)</h3>
+      <p>AI 模型标识，如 gpt-4、claude-3</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="requests" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>请求次数</h3>
+      <p>该模型的总 API 调用次数</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="quota" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>消耗额度 (Quota)</h3>
+      <p>该模型累计消耗的计费额度</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="tokens" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Tokens 数</h3>
+      <p>Prompt Tokens + Completion Tokens</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="prompt" onclick="toggleSelect(this)">
+    <div class="letter">?</div>
+    <div class="content">
+      <h3>Prompt Tokens</h3>
+      <p>输入 tokens 数量，单独统计</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="completion" onclick="toggleSelect(this)">
+    <div class="letter">?</div>
+    <div class="content">
+      <h3>Completion Tokens</h3>
+      <p>输出 tokens 数量，单独统计</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="avgtime" onclick="toggleSelect(this)">
+    <div class="letter">?</div>
+    <div class="content">
+      <h3>平均响应时间</h3>
+      <p>该模型 API 平均耗时</p>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top:16px;color:#666">
+  ✓ = 推荐必选 | ? = 可选<br>
+  点击选择/取消选择（可多选）
+</p>

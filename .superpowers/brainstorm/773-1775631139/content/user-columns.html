@@ -1,0 +1,65 @@
+<h2>用户明细 - 表格列设计</h2>
+<p class="subtitle">按 AK 名称聚合的用户使用统计，选择需要展示的列</p>
+
+<div class="options" data-multiselect>
+  <div class="option" data-choice="name" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>AK 名称 (TokenName)</h3>
+      <p>用户标识，必选列</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="requests" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>请求次数</h3>
+      <p>该 AK 的总 API 调用次数</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="quota" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>消耗额度 (Quota)</h3>
+      <p>累计消耗的计费额度</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="tokens" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content">
+      <h3>Tokens 数</h3>
+      <p>Prompt Tokens + Completion Tokens 总和</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="models" onclick="toggleSelect(this)">
+    <div class="letter">?</div>
+    <div class="content">
+      <h3>使用模型数</h3>
+      <p>该 AK 使用了多少种不同的模型</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="lastused" onclick="toggleSelect(this)">
+    <div class="letter">?</div>
+    <div class="content">
+      <h3>最后使用时间</h3>
+      <p>最近一次 API 调用的时间</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="avgtime" onclick="toggleSelect(this)">
+    <div class="letter">?</div>
+    <div class="content">
+      <h3>平均响应时间</h3>
+      <p>API 平均耗时（秒）</p>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top:16px;color:#666">
+  ✓ = 推荐必选 | ? = 可选<br>
+  点击选择/取消选择，然后告诉我你的选择
+</p>

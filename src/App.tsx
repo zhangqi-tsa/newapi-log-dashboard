@@ -6,9 +6,9 @@ import {
   AppstoreOutlined,
   FileTextOutlined,
 } from '@ant-design/icons'
-import UserSummary from './pages/UserSummary'
-import ModelDimension from './pages/ModelDimension'
-import LogDetail from './pages/LogDetail'
+import UserSummary from './pages/UserSummary/index'
+import ModelDimension from './pages/ModelDimension/index'
+import LogDetail from './pages/LogDetail/index'
 import { checkAuth } from './services/api'
 
 const { Header, Content } = Layout
