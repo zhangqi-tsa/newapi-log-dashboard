@@ -1,0 +1,13 @@
+services:
+  newapi-dashboard:
+    build: .
+    container_name: newapi-dashboard
+    ports:
+      - "3010:80"
+    restart: unless-stopped
+    networks:
+      - newapi_network
+
+networks:
+  newapi_network:
+    external: true
