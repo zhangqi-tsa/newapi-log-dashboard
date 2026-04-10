@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
-import { Layout, Menu, Result, Spin } from 'antd'
+import { Layout, Menu } from 'antd'
 import {
   UserOutlined,
   AppstoreOutlined,
@@ -9,33 +8,12 @@ import {
 import UserSummary from './pages/UserSummary/index'
 import ModelDimension from './pages/ModelDimension/index'
 import LogDetail from './pages/LogDetail/index'
-import { checkAuth } from './services/api'
 
 const { Header, Content } = Layout
 
 export default function App() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [loading, setLoading] = useState(true)
-  const [authed, setAuthed] = useState(false)
-
-  useEffect(() => {
-    checkAuthentication()
-  }, [])
-
-  const checkAuthentication = async () => {
-    try {
-      const isAuthed = await checkAuth()
-      setAuthed(isAuthed)
-      if (!isAuthed) {
-        window.location.href = '/'
-      }
-    } catch {
-      window.location.href = '/'
-    } finally {
-      setLoading(false)
-    }
-  }
 
   const getSelectedKey = () => {
     const path = location.pathname
@@ -43,24 +21,6 @@ export default function App() {
     if (path === '/model') return 'model'
     if (path === '/log') return 'log'
     return 'user'
-  }
-
-  if (loading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <Spin size="large" />
-      </div>
-    )
-  }
-
-  if (!authed) {
-    return (
-      <Result
-        status="403"
-        title="需要管理员权限"
-        subTitle="请登录 New API 管理员账户后访问"
-      />
-    )
   }
 
   return (

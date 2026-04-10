@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
-import { message, Spin, Button, Input, Space } from 'antd'
+import { message, Spin, Button, Input, Space, Row, Col } from 'antd'
 import { ArrowLeftOutlined, ClearOutlined } from '@ant-design/icons'
 import StatsCards from '../../components/StatsCards'
 import TimeFilter from '../../components/TimeFilter'
+import { ModelBarChart } from '../../components/Charts'
 import { getAllLogs } from '../../services/api'
 import { aggregateByModel, calculateStats } from '../../utils/aggregator'
 import { formatNumber } from '../../utils/aggregator'
+import { getTimeRangeByType } from '../../utils/time'
 import type { TimeFilterType, TimeRange, ModelAggregate, StatsCardsData, LogItem } from '../../types'
 import { Table } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
@@ -18,7 +20,7 @@ export default function ModelDimension() {
 
   const [loading, setLoading] = useState(false)
   const [timeFilter, setTimeFilter] = useState<TimeFilterType>('week')
-  const [timeRange, setTimeRange] = useState<TimeRange>({ start_timestamp: 0, end_timestamp: 0 })
+  const [timeRange, setTimeRange] = useState<TimeRange>(() => getTimeRangeByType('week'))
   const [modelData, setModelData] = useState<ModelAggregate[]>([])
   const [filterToken, setFilterToken] = useState(initialToken)
   const [statsData, setStatsData] = useState<StatsCardsData>({
@@ -30,9 +32,7 @@ export default function ModelDimension() {
   })
 
   useEffect(() => {
-    if (timeRange.start_timestamp || timeRange.end_timestamp) {
-      fetchData()
-    }
+    fetchData()
   }, [timeRange, filterToken])
 
   const fetchData = async () => {
@@ -142,6 +142,11 @@ export default function ModelDimension() {
 
       <Spin spinning={loading}>
         <StatsCards data={statsData} loading={loading} />
+        <Row gutter={16} style={{ marginBottom: 24 }}>
+          <Col span={24}>
+            <ModelBarChart data={modelData} loading={loading} />
+          </Col>
+        </Row>
         <Table
           columns={columns}
           dataSource={modelData}

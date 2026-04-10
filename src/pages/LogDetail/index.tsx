@@ -5,12 +5,13 @@ import TimeFilter from '../../components/TimeFilter'
 import LogTable from '../../components/LogTable'
 import { getAllLogs } from '../../services/api'
 import { calculateStats } from '../../utils/aggregator'
+import { getTimeRangeByType } from '../../utils/time'
 import type { TimeFilterType, TimeRange, LogItem, StatsCardsData } from '../../types'
 
 export default function LogDetail() {
   const [loading, setLoading] = useState(false)
   const [timeFilter, setTimeFilter] = useState<TimeFilterType>('week')
-  const [timeRange, setTimeRange] = useState<TimeRange>({ start_timestamp: 0, end_timestamp: 0 })
+  const [timeRange, setTimeRange] = useState<TimeRange>(() => getTimeRangeByType('week'))
   const [logs, setLogs] = useState<LogItem[]>([])
   const [statsData, setStatsData] = useState<StatsCardsData>({
     totalRequests: 0,
@@ -24,9 +25,7 @@ export default function LogDetail() {
   const [total, setTotal] = useState(0)
 
   useEffect(() => {
-    if (timeRange.start_timestamp || timeRange.end_timestamp) {
-      fetchData()
-    }
+    fetchData()
   }, [timeRange, page, pageSize])
 
   const fetchData = async () => {

@@ -9,7 +9,7 @@ async function request<T>(
 ): Promise<ApiResponse<T>> {
   const response = await fetch(`${API_BASE}${url}`, {
     ...options,
-    credentials: 'include', // 携带 cookie
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       ...options?.headers,
@@ -102,6 +102,24 @@ export async function checkAuth(): Promise<boolean> {
     })
     const result = await response.json()
     return result.success && result.data?.role >= 10 // AdminUser
+  } catch {
+    return false
+  }
+}
+
+// 登录
+export async function login(username: string, password: string): Promise<boolean> {
+  try {
+    const response = await fetch(`${API_BASE}/user/login`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    })
+    const result = await response.json()
+    return result.success
   } catch {
     return false
   }

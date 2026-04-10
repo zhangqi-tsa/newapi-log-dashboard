@@ -1,18 +1,20 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { message, Spin } from 'antd'
+import { message, Spin, Row, Col } from 'antd'
 import StatsCards from '../../components/StatsCards'
 import TimeFilter from '../../components/TimeFilter'
 import UserTable from '../../components/UserTable'
+import { TokenPieChart, QuotaBarChart } from '../../components/Charts'
 import { getAllLogs } from '../../services/api'
 import { aggregateByUser, calculateStats } from '../../utils/aggregator'
+import { getTimeRangeByType } from '../../utils/time'
 import type { TimeFilterType, TimeRange, UserAggregate, StatsCardsData, LogItem } from '../../types'
 
 export default function UserSummary() {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const [timeFilter, setTimeFilter] = useState<TimeFilterType>('week')
-  const [timeRange, setTimeRange] = useState<TimeRange>({ start_timestamp: 0, end_timestamp: 0 })
+  const [timeRange, setTimeRange] = useState<TimeRange>(() => getTimeRangeByType('week'))
   const [userData, setUserData] = useState<UserAggregate[]>([])
   const [statsData, setStatsData] = useState<StatsCardsData>({
     totalRequests: 0,
@@ -23,9 +25,7 @@ export default function UserSummary() {
   })
 
   useEffect(() => {
-    if (timeRange.start_timestamp || timeRange.end_timestamp) {
-      fetchData()
-    }
+    fetchData()
   }, [timeRange])
 
   const fetchData = async () => {
@@ -70,6 +70,14 @@ export default function UserSummary() {
 
       <Spin spinning={loading}>
         <StatsCards data={statsData} loading={loading} />
+        <Row gutter={16} style={{ marginBottom: 24 }}>
+          <Col span={12}>
+            <TokenPieChart data={userData} loading={loading} />
+          </Col>
+          <Col span={12}>
+            <QuotaBarChart data={userData} loading={loading} />
+          </Col>
+        </Row>
         <UserTable data={userData} loading={loading} onUserClick={handleUserClick} />
       </Spin>
     </div>
