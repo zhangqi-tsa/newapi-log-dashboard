@@ -17,11 +17,6 @@ async function request<T>(
   })
 
   if (!response.ok) {
-    // 未登录或权限不足，跳转登录页
-    if (response.status === 401) {
-      window.location.href = '/'
-      throw new Error('未登录')
-    }
     throw new Error(`HTTP error! status: ${response.status}`)
   }
 
