@@ -104,7 +104,6 @@ export default function Login({ onSuccess }: LoginProps) {
             rules={[{ required: true, message: '请输入 Access Token' }]}
           >
             <Input.TextArea
-              prefix={<KeyOutlined />}
               placeholder="请输入 NewAPI 的 Access Token"
               size="large"
               rows={3}
