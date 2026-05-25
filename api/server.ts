@@ -207,11 +207,12 @@ app.get('/log', async (req, res) => {
 // 获取统计数据
 app.get('/log/stat', async (req, res) => {
   try {
-    const { start_timestamp, end_timestamp } = req.query
+    const { start_timestamp, end_timestamp, token_name } = req.query
 
     const stats = await getStats({
       startTime: start_timestamp ? parseInt(start_timestamp as string) : undefined,
       endTime: end_timestamp ? parseInt(end_timestamp as string) : undefined,
+      tokenName: token_name as string || undefined,
     })
 
     res.json({
@@ -253,11 +254,12 @@ app.get('/user/summary', async (req, res) => {
 // 获取模型维度
 app.get('/model/dimension', async (req, res) => {
   try {
-    const { start_timestamp, end_timestamp } = req.query
+    const { start_timestamp, end_timestamp, token_name } = req.query
 
     const result = await aggregateByModel({
       startTime: start_timestamp ? parseInt(start_timestamp as string) : undefined,
       endTime: end_timestamp ? parseInt(end_timestamp as string) : undefined,
+      tokenName: token_name as string || undefined,
     })
 
     res.json({

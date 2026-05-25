@@ -257,11 +257,13 @@ export async function getUserSummary(params: {
 export async function getModelDimension(params: {
   start_timestamp?: number
   end_timestamp?: number
+  token_name?: string
 }) {
   const queryParams = new URLSearchParams()
 
   if (params.start_timestamp) queryParams.set('start_timestamp', String(params.start_timestamp))
   if (params.end_timestamp) queryParams.set('end_timestamp', String(params.end_timestamp))
+  if (params.token_name) queryParams.set('token_name', params.token_name)
 
   const result = await request<any>(`/model/dimension?${queryParams.toString()}`)
 

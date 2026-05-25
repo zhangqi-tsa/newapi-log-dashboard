@@ -20,6 +20,7 @@ export default function ModelDimension() {
   const [timeFilter, setTimeFilter] = useState<TimeFilterType>('week')
   const [timeRange, setTimeRange] = useState<TimeRange>(() => getTimeRangeByType('week'))
   const [modelData, setModelData] = useState<ModelAggregate[]>([])
+  const [filterToken, setFilterToken] = useState(initialToken)
   const [statsData, setStatsData] = useState<StatsCardsData>({
     totalRequests: 0,
     totalTokens: 0,
@@ -36,7 +37,7 @@ export default function ModelDimension() {
 
   useEffect(() => {
     fetchData()
-  }, [timeRange])
+  }, [timeRange, filterToken])
 
   const fetchData = async () => {
     setLoading(true)
@@ -45,10 +46,12 @@ export default function ModelDimension() {
         getModelDimension({
           start_timestamp: timeRange.start_timestamp || undefined,
           end_timestamp: timeRange.end_timestamp || undefined,
+          token_name: filterToken || undefined,
         }),
         getLogsStat({
           start_timestamp: timeRange.start_timestamp || undefined,
           end_timestamp: timeRange.end_timestamp || undefined,
+          token_name: filterToken || undefined,
         }),
       ])
 

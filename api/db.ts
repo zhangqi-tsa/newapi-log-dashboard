@@ -179,6 +179,7 @@ export async function queryLogs(params: {
 export async function getStats(params: {
   startTime?: number
   endTime?: number
+  tokenName?: string
 }): Promise<{
   totalRequests: number
   totalTokens: number
@@ -186,7 +187,7 @@ export async function getStats(params: {
   activeUsers: number
   usedModels: number
 }> {
-  const { startTime, endTime } = params
+  const { startTime, endTime, tokenName } = params
 
   let whereClause = 'WHERE 1=1'
   const values: (string | number)[] = []
@@ -199,6 +200,10 @@ export async function getStats(params: {
   if (endTime) {
     whereClause += ` AND created_at <= $${paramIndex++}`
     values.push(endTime)
+  }
+  if (tokenName) {
+    whereClause += ` AND token_name = $${paramIndex++}`
+    values.push(tokenName)
   }
 
   const result = await pool.query(`
@@ -278,13 +283,14 @@ export async function aggregateByUser(params: {
 export async function aggregateByModel(params: {
   startTime?: number
   endTime?: number
+  tokenName?: string
 }): Promise<{
   model_name: string
   request_count: number
   total_quota: number
   total_tokens: number
 }[]> {
-  const { startTime, endTime } = params
+  const { startTime, endTime, tokenName } = params
 
   let whereClause = 'WHERE 1=1'
   const values: (string | number)[] = []
@@ -297,6 +303,10 @@ export async function aggregateByModel(params: {
   if (endTime) {
     whereClause += ` AND created_at <= $${paramIndex++}`
     values.push(endTime)
+  }
+  if (tokenName) {
+    whereClause += ` AND token_name = $${paramIndex++}`
+    values.push(tokenName)
   }
 
   const result = await pool.query(`
