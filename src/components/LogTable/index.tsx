@@ -1,8 +1,8 @@
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import type { LogItem } from '../../types'
 import { formatTimestamp } from '../../utils/time'
-import { formatNumber } from '../../utils/aggregator'
+import { formatNumber, formatQuota } from '../../utils/aggregator'
 
 interface LogTableProps {
   data: LogItem[]
@@ -58,7 +58,11 @@ export default function LogTable({
       key: 'quota',
       width: 120,
       align: 'right',
-      render: (value: number) => formatNumber(value || 0),
+      render: (value: number) => (
+        <Tooltip title={formatNumber(value || 0)}>
+          {formatQuota(value || 0)}
+        </Tooltip>
+      ),
     },
   ]
 

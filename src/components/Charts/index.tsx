@@ -9,12 +9,12 @@ interface TokenPieChartProps {
 export function TokenPieChart({ data, loading }: TokenPieChartProps) {
   const chartData = data.slice(0, 10).map(item => ({
     name: item.token_name,
-    value: item.total_tokens,
+    value: item.request_count,
   }))
 
   const option = {
     title: {
-      text: 'AK Tokens 分布',
+      text: 'AK 请求分布',
       left: 'center',
     },
     tooltip: {
@@ -132,7 +132,7 @@ export function QuotaBarChart({ data, loading }: QuotaBarChartProps) {
 
   const option = {
     title: {
-      text: 'AK 消耗额度 Top 10',
+      text: 'AK 请求次数 Top 10',
       left: 'center',
     },
     tooltip: {
@@ -159,9 +159,9 @@ export function QuotaBarChart({ data, loading }: QuotaBarChartProps) {
     },
     series: [
       {
-        name: '消耗额度',
+        name: '请求次数',
         type: 'bar',
-        data: topData.map(item => item.total_quota),
+        data: topData.map(item => item.request_count),
         itemStyle: {
           color: '#52c41a',
           borderRadius: [4, 4, 0, 0],

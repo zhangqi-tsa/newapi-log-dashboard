@@ -8,19 +8,30 @@ import {
 import UserSummary from './pages/UserSummary/index'
 import ModelDimension from './pages/ModelDimension/index'
 import LogDetail from './pages/LogDetail/index'
+import Login from './pages/Login/index'
+import { useState, useEffect } from 'react'
+import { checkAuth } from './services/api'
 
 const { Header, Content } = Layout
 
-export default function App() {
+function MainLayout() {
   const navigate = useNavigate()
   const location = useLocation()
 
   const getSelectedKey = () => {
     const path = location.pathname
-    if (path === '/' || path === '') return 'user'
-    if (path === '/model') return 'model'
-    if (path === '/log') return 'log'
+    // 处理 basename /dashboard 后的路径
+    const relativePath = path.replace(/^\/dashboard/, '') || '/'
+    if (relativePath === '/') return 'user'
+    if (relativePath === '/model') return 'model'
+    if (relativePath === '/log') return 'log'
     return 'user'
+  }
+
+  const handleNavigate = (key: string) => {
+    if (key === 'user') navigate('/')
+    else if (key === 'model') navigate('/model')
+    else if (key === 'log') navigate('/log')
   }
 
   return (
@@ -40,11 +51,7 @@ export default function App() {
         <Menu
           mode="horizontal"
           selectedKeys={[getSelectedKey()]}
-          onClick={({ key }) => {
-            if (key === 'user') navigate('/')
-            else if (key === 'model') navigate('/model')
-            else if (key === 'log') navigate('/log')
-          }}
+          onClick={({ key }) => handleNavigate(key)}
           items={[
             { key: 'user', icon: <UserOutlined />, label: '用户明细' },
             { key: 'model', icon: <AppstoreOutlined />, label: '模型维度' },
@@ -64,4 +71,46 @@ export default function App() {
       </Content>
     </Layout>
   )
+}
+
+export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
+  const [isChecking, setIsChecking] = useState(true)
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      try {
+        const isLoggedIn = await checkAuth()
+        setIsAuthenticated(isLoggedIn)
+      } catch (error) {
+        setIsAuthenticated(false)
+      } finally {
+        setIsChecking(false)
+      }
+    }
+    checkAuthentication()
+  }, [])
+
+  // 正在检查登录状态
+  if (isChecking) {
+    return (
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        background: '#f0f2f5'
+      }}>
+        <div>加载中...</div>
+      </div>
+    )
+  }
+
+  // 未登录
+  if (!isAuthenticated) {
+    return <Login onSuccess={() => setIsAuthenticated(true)} />
+  }
+
+  // 已登录
+  return <MainLayout />
 }

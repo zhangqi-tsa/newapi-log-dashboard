@@ -1,7 +1,7 @@
-import { Row, Col, Card, Statistic } from 'antd'
+import { Row, Col, Card, Statistic, Tooltip } from 'antd'
 import { ApiOutlined, NumberOutlined, DollarOutlined, UserOutlined, AppstoreOutlined } from '@ant-design/icons'
 import type { StatsCardsData } from '../../types'
-import { formatNumber } from '../../utils/aggregator'
+import { formatNumber, formatQuota } from '../../utils/aggregator'
 
 interface StatsCardsProps {
   data: StatsCardsData
@@ -15,30 +15,36 @@ export default function StatsCards({ data, loading }: StatsCardsProps) {
       value: data.totalRequests,
       icon: <ApiOutlined style={{ fontSize: 24, color: '#1890ff' }} />,
       color: '#e6f7ff',
+      formatter: (v: number) => formatNumber(v),
     },
     {
       title: '总 Tokens',
       value: data.totalTokens,
       icon: <NumberOutlined style={{ fontSize: 24, color: '#52c41a' }} />,
       color: '#f6ffed',
+      formatter: (v: number) => formatNumber(v),
     },
     {
       title: '消耗 Quota',
       value: data.totalQuota,
       icon: <DollarOutlined style={{ fontSize: 24, color: '#faad14' }} />,
       color: '#fffbe6',
+      formatter: (v: number) => formatQuota(v),
+      tooltip: (v: number) => formatNumber(v),
     },
     {
       title: '活跃用户数',
       value: data.activeUsers,
       icon: <UserOutlined style={{ fontSize: 24, color: '#722ed1' }} />,
       color: '#f9f0ff',
+      formatter: (v: number) => formatNumber(v),
     },
     {
       title: '使用模型数',
       value: data.usedModels,
       icon: <AppstoreOutlined style={{ fontSize: 24, color: '#13c2c2' }} />,
       color: '#e6fffb',
+      formatter: (v: number) => formatNumber(v),
     },
   ]
 
@@ -51,12 +57,14 @@ export default function StatsCards({ data, loading }: StatsCardsProps) {
             bodyStyle={{ padding: '16px 24px' }}
             loading={loading}
           >
-            <Statistic
-              title={card.title}
-              value={card.value}
-              formatter={(value) => formatNumber(Number(value))}
-              prefix={card.icon}
-            />
+            <Tooltip title={card.tooltip ? card.tooltip(card.value) : undefined}>
+              <Statistic
+                title={card.title}
+                value={card.value}
+                formatter={(value) => card.formatter(Number(value))}
+                prefix={card.icon}
+              />
+            </Tooltip>
           </Card>
         </Col>
       ))}

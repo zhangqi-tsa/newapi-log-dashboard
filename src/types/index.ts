@@ -28,6 +28,7 @@ export interface StatData {
 
 // 用户聚合数据
 export interface UserAggregate {
+  username: string
   token_name: string
   request_count: number
   total_quota: number
