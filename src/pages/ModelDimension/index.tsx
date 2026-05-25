@@ -31,6 +31,12 @@ export default function ModelDimension() {
     usedModels: 0,
   })
 
+  // 当 URL 参数变化时同步 filterToken
+  useEffect(() => {
+    const tokenFromUrl = searchParams.get('token') || ''
+    setFilterToken(tokenFromUrl)
+  }, [searchParams])
+
   useEffect(() => {
     fetchData()
   }, [timeRange, filterToken])
