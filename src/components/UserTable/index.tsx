@@ -1,8 +1,8 @@
-import { Table } from 'antd'
+import { Table, Tooltip } from 'antd'
 import type { ColumnsType } from 'antd/es/table'
 import type { UserAggregate } from '../../types'
 import { formatTimestamp } from '../../utils/time'
-import { formatNumber } from '../../utils/aggregator'
+import { formatNumber, formatQuota } from '../../utils/aggregator'
 
 interface UserTableProps {
   data: UserAggregate[]
@@ -37,7 +37,11 @@ export default function UserTable({ data, loading, onUserClick }: UserTableProps
       dataIndex: 'total_quota',
       key: 'total_quota',
       align: 'right',
-      render: (value: number) => formatNumber(value),
+      render: (value: number) => (
+        <Tooltip title={formatNumber(value)}>
+          {formatQuota(value)}
+        </Tooltip>
+      ),
       sorter: (a, b) => a.total_quota - b.total_quota,
     },
     {

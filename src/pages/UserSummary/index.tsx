@@ -5,10 +5,9 @@ import StatsCards from '../../components/StatsCards'
 import TimeFilter from '../../components/TimeFilter'
 import UserTable from '../../components/UserTable'
 import { TokenPieChart, QuotaBarChart } from '../../components/Charts'
-import { getAllLogs } from '../../services/api'
-import { aggregateByUser, calculateStats } from '../../utils/aggregator'
+import { getUserSummary, getLogsStat } from '../../services/api'
 import { getTimeRangeByType } from '../../utils/time'
-import type { TimeFilterType, TimeRange, UserAggregate, StatsCardsData, LogItem } from '../../types'
+import type { TimeFilterType, TimeRange, UserAggregate, StatsCardsData } from '../../types'
 
 export default function UserSummary() {
   const navigate = useNavigate()
@@ -31,20 +30,25 @@ export default function UserSummary() {
   const fetchData = async () => {
     setLoading(true)
     try {
-      const result = await getAllLogs({
-        type: 2, // LogTypeConsume
-        start_timestamp: timeRange.start_timestamp || undefined,
-        end_timestamp: timeRange.end_timestamp || undefined,
-        page: 1,
-        page_size: 10000,
+      const [userResult, statResult] = await Promise.all([
+        getUserSummary({
+          start_timestamp: timeRange.start_timestamp || undefined,
+          end_timestamp: timeRange.end_timestamp || undefined,
+        }),
+        getLogsStat({
+          start_timestamp: timeRange.start_timestamp || undefined,
+          end_timestamp: timeRange.end_timestamp || undefined,
+        }),
+      ])
+
+      setUserData(userResult)
+      setStatsData({
+        totalRequests: statResult.rpm,
+        totalTokens: statResult.tpm,
+        totalQuota: statResult.quota,
+        activeUsers: userResult.length,
+        usedModels: 0,
       })
-
-      const logs: LogItem[] = result.items || []
-      const aggregated = aggregateByUser(logs)
-      setUserData(aggregated)
-
-      const stats = calculateStats(logs)
-      setStatsData(stats)
     } catch (error: unknown) {
       const err = error as Error
       message.error(err.message || '获取数据失败')

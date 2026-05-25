@@ -35,6 +35,7 @@ export function aggregateByUser(logs: LogItem[]): UserAggregate[] {
 
   // 转换为最终格式
   return Array.from(userMap.entries()).map(([token_name, data]) => ({
+    username: '',
     token_name,
     request_count: data.request_count,
     total_quota: data.total_quota,
@@ -98,4 +99,21 @@ export function calculateStats(logs: LogItem[]): StatsCardsData {
 // 格式化数字（添加千分位）
 export function formatNumber(num: number): string {
   return num.toLocaleString('zh-CN')
+}
+
+// 格式化额度（使用 K M B 单位）
+export function formatQuota(num: number): string {
+  if (num === 0) return '0'
+  if (num < 1000) return num.toString()
+  if (num < 1000000) return (num / 1000).toFixed(1) + 'K'
+  if (num < 1000000000) return (num / 1000000).toFixed(1) + 'M'
+  return (num / 1000000000).toFixed(1) + 'B'
+}
+
+// 格式化额度显示（带详细数字的 tooltip）
+export function formatQuotaWithFull(num: number): { display: string; full: string } {
+  return {
+    display: formatQuota(num),
+    full: formatNumber(num)
+  }
 }
